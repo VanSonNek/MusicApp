@@ -15,16 +15,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 
 import com.example.musicapp.Screen.AccountScreen
-import com.example.musicapp.Screen.HomeScreen
+
+import com.example.musicapp.Screen.SignUp_In.Sign_in
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.Home.route) {
-                composable(Screen.Home.route) { HomeScreen(navController) }
+            NavHost(navController = navController, startDestination = Screen.Sign_In.route) {
                 composable(Screen.Account.route) { AccountScreen(navController) }
+                composable(Screen.Sign_In.route) { Sign_in() }
             }
 
         }
