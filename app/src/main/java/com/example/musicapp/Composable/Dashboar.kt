@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -37,6 +38,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.unit.Dp
 
 
@@ -56,10 +61,8 @@ fun Text_Sign(modifier: Modifier = Modifier, text: String) {
     Text(
         text = text,
         modifier = modifier,
-        fontSize = 35.sp, // 👉 tăng kích thước chữ tại đây
+        fontSize = 40.sp, // 👉 tăng kích thước chữ tại đây
         color = Color.White,
-
-
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +72,7 @@ fun InputField(
     value: String,
     onValueChange: (String) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
-    textFieldHeight: Dp = 300.dp, // Kích thước chiều cao của TextField
+    textFieldHeight: Dp = 300.dp,
 
 ) {
     // Màu trắng nhẹ cho các thành phần
@@ -84,7 +87,7 @@ fun InputField(
             onValueChange = onValueChange,
             label = { Text(label, color = lightWhite) },
             modifier = Modifier
-                .width(textFieldHeight), // Thiết lập chiều cao của TextField
+                .width(textFieldHeight),
             leadingIcon = leadingIcon,
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
@@ -102,7 +105,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier = modifier.padding(1.dp)) {
         InputField(
             label = "Tên tài khoản",
             value = username,
@@ -113,7 +116,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
             }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         InputField(
             label = "Mật khẩu",
@@ -125,6 +128,36 @@ fun SignInScreen(modifier: Modifier = Modifier) {
             }
         )
     }
+}
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun SignUpText(
+    onSignUpClick: () -> Unit,
+    modifier: Modifier = Modifier // Thêm tham số modifier
+) {
+    val text = buildAnnotatedString {
+        pushStyle(SpanStyle(color = Color.White))
+        append("Don't have an account? ")
+        pushStyle(SpanStyle(color = Color.Yellow)) // Màu của chữ "Sign Up"
+        withAnnotation(tag = "SIGN_UP", annotation = "signUp") {
+            append("Sign Up")
+        }
+        pop()
+    }
+
+    // Hiển thị văn bản với liên kết
+    ClickableText(
+        text = text,
+        onClick = { offset ->
+            text.getStringAnnotations(tag = "SIGN_UP", start = offset, end = offset)
+                .firstOrNull()?.let {
+                    if (it.item == "signUp") {
+                        onSignUpClick() // Gọi callback khi nhấn vào "Sign Up"
+                    }
+                }
+        },
+        modifier = modifier // Dùng modifier từ tham số truyền vào
+    )
 }
 
 
