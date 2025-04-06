@@ -47,6 +47,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withAnnotation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 
 
@@ -194,6 +195,18 @@ fun SignUpText(
     )
 }
 
+//@Preview
+//@Composable
+//fun SignUpTextPreview() {
+//    SignUpText(onSignUpClick = {})
+//}
+//
+//
+//@Preview
+//@Composable
+//fun SignUpTextPreview2() {
+//    SignInScreen(modifier = Modifier)
+//}
 
 
 

@@ -46,6 +46,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.musicapp.Composable.AlbumItem
+import com.example.musicapp.Composable.SongRankingItem
+import com.example.musicapp.Composable.WeeklySongItem
 
 
 @Composable
@@ -193,152 +196,12 @@ fun Home(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun AlbumItem(title: String, artist: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Box(
-            modifier = Modifier
-                .size(250.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.DarkGray)
-        ) {
-            Image(
-                painter = painterResource(id = android.R.drawable.ic_media_play),
-                contentDescription = "Album Cover",
-                modifier = Modifier
-                    .size(40.dp)
-                    .align(Alignment.Center)
-            )
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
 
-        Text(
-            text = title,
-            color = Color.White,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
-        )
 
-        Text(
-            text = artist,
-            color = Color.Gray,
-            fontSize = 12.sp
-        )
-    }
-}
 
-@Composable
-fun WeeklySongItem(title: String, artist: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(Color.DarkGray)
-            .padding(16.dp),
-        contentAlignment = Alignment.TopStart
-    ) {
-        Column {
-            Text(
-                text = title,
-                color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
 
-            Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = artist,
-                color = Color.LightGray,
-                fontSize = 18.sp
-            )
-        }
-        Image(
-            painter = painterResource(id = android.R.drawable.ic_media_play),
-            contentDescription = "Album Cover",
-            modifier = Modifier
-                .size(40.dp)
-                .align(Alignment.Center)
-        )
-    }
-}
-
-@Composable
-fun SongRankingItem(rank: Int, title: String, artist: String, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = String.format("%02d", rank),
-            color = Color.White,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.width(40.dp)
-        )
-
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = title,
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
-            )
-            Text(
-                text = artist,
-                color = Color.Gray,
-                fontSize = 14.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun BottomNavigation() {
-    val items = listOf(
-        BottomNavItem("Home", Icons.Default.Home),
-        BottomNavItem("Explore", Icons.Default.Search),
-        BottomNavItem("Radio", Icons.Default.Radio),
-        BottomNavItem("Account", Icons.Default.AccountCircle)
-    )
-
-    // Sử dụng Navigation Bar của Material3 để tạo giao diện đẹp hơn
-    NavigationBar(
-        containerColor = Color.Black,
-        contentColor = Color.White
-    ) {
-        items.forEach { item ->
-            NavigationBarItem(
-                selected = item.title == "Home",
-                onClick = { /* Handle navigation */ },
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title,
-                        modifier = Modifier.size(24.dp)
-                    )
-                },
-                label = {
-                    Text(
-                        text = item.title,
-                        fontSize = 12.sp
-                    )
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.Gray,
-                    selectedTextColor = Color.White,
-                    unselectedTextColor = Color.Gray,
-                    indicatorColor = Color.DarkGray
-                )
-            )
-        }
-    }
-}
 
 data class BottomNavItem(val title: String, val icon: ImageVector)
 data class Song(val title: String, val artist: String)

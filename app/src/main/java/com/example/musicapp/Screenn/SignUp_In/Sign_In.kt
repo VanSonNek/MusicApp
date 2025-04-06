@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.musicapp.Composable.BackgroundImage
 import com.example.musicapp.Composable.MyButton
 import com.example.musicapp.Composable.SignInScreen
@@ -89,5 +90,6 @@ Surface(modifier = Modifier.fillMaxSize()) {
 //@Preview(showBackground = true)
 //@Composable
 //fun PreviewSignIn() {
-//    Sign_in()
+//    val navController = rememberNavController()
+//    Sign_in(navController = navController)
 //}
