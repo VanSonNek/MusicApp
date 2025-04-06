@@ -35,14 +35,20 @@ import com.example.musicapp.R
 import com.example.musicapp.Screen.Screen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.unit.Dp
+
 
 
 @Composable
@@ -72,16 +78,15 @@ fun InputField(
     value: String,
     onValueChange: (String) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     textFieldHeight: Dp = 300.dp,
-
 ) {
-    // Màu trắng nhẹ cho các thành phần
     val lightWhite = Color.White.copy(alpha = 0.8f)
 
     Box(
         modifier = Modifier
     ) {
-        // TextField
         TextField(
             value = value,
             onValueChange = onValueChange,
@@ -89,21 +94,25 @@ fun InputField(
             modifier = Modifier
                 .width(textFieldHeight),
             leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            visualTransformation = visualTransformation,
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent,
                 focusedIndicatorColor = lightWhite,
                 unfocusedIndicatorColor = lightWhite,
-                cursorColor = lightWhite
+                cursorColor = lightWhite,
             )
         )
     }
 }
 
 
+
 @Composable
 fun SignInScreen(modifier: Modifier = Modifier) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     Column(modifier = modifier.padding(1.dp)) {
         InputField(
@@ -111,7 +120,6 @@ fun SignInScreen(modifier: Modifier = Modifier) {
             value = username,
             onValueChange = { username = it },
             leadingIcon = {
-                // Đặt icon bên ngoài TextField, ngoài đường gạch dưới
                 Icon(Icons.Filled.Email, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             }
         )
@@ -123,17 +131,43 @@ fun SignInScreen(modifier: Modifier = Modifier) {
             value = password,
             onValueChange = { password = it },
             leadingIcon = {
-                // Đặt icon bên ngoài TextField, ngoài đường gạch dưới
                 Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
+            },
+            trailingIcon = {
+                val icon = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val desc = if (passwordVisible) "Ẩn mật khẩu" else "Hiện mật khẩu"
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(imageVector = icon, contentDescription = desc, tint = Color.White)
+                }
+            },
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        )
+    }
+}
+@Composable
+fun SignUpScreen(modifier: Modifier = Modifier) {
+    var email by remember { mutableStateOf("") }
+
+    Column(modifier = modifier.padding(1.dp)) {
+        InputField(
+            label = "Email",
+            value = email,
+            onValueChange = { email = it },
+            leadingIcon = {
+                // Đặt icon bên ngoài TextField, ngoài đường gạch dưới
+                Icon(Icons.Filled.Email, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             }
         )
+
+
     }
 }
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun SignUpText(
     onSignUpClick: () -> Unit,
-    modifier: Modifier = Modifier // Thêm tham số modifier
+    modifier: Modifier = Modifier,
+    // Thêm tham số modifier
 ) {
     val text = buildAnnotatedString {
         pushStyle(SpanStyle(color = Color.White))

@@ -1,4 +1,4 @@
-package com.example.musicapp.Screen.SignUp_In
+package com.example.musicapp.Screenn.SignUp_In
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,15 +10,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import com.example.musicapp.Composable.BackgroundImage
 import com.example.musicapp.Composable.MyButton
 import com.example.musicapp.Composable.SignInScreen
 import com.example.musicapp.Composable.SignUpText
 import com.example.musicapp.Composable.Text_Sign
 import com.example.musicapp.R
+import com.example.musicapp.Screen.Screen
 
 @Composable
-fun Sign_in(){
+fun Sign_in(navController: NavController){
 Surface(modifier = Modifier.fillMaxSize()) {
     ConstraintLayout(
         modifier = Modifier
@@ -70,7 +72,7 @@ Surface(modifier = Modifier.fillMaxSize()) {
                 }
         )
         SignUpText(
-            onSignUpClick = {},
+            onSignUpClick = {  navController.navigate(Screen.Sign_Up.route)},
             modifier = Modifier
                 .constrainAs(sign_text){
                     top.linkTo(button.bottom, margin = 70.dp)

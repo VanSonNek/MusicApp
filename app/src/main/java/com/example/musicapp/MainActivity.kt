@@ -13,10 +13,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.example.musicapp.Screenn.SignUp_In.Sign_Up
+import com.example.musicapp.Screenn.SignUp_In.Sign_in
 
-import com.example.musicapp.Screen.AccountScreen
-
-import com.example.musicapp.Screen.SignUp_In.Sign_in
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +23,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.Sign_In.route) {
-                composable(Screen.Account.route) { AccountScreen(navController) }
-                composable(Screen.Sign_In.route) { Sign_in() }
+                composable(Screen.Sign_In.route) { Sign_in(navController) }
+                composable(Screen.Sign_Up.route) { Sign_Up() }
             }
 
         }
