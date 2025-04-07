@@ -57,7 +57,7 @@ Surface(modifier = Modifier.fillMaxSize()) {
                 }
         )
         MyButton(
-            onClick = {},
+            onClick = {navController.navigate(Screen.Home.route)},
             text = "SIGN IN",
             backgroundColor = Color(0xFF9CFF00),
             width = 300.dp,

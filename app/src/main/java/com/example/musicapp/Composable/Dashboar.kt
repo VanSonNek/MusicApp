@@ -117,7 +117,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
 
     Column(modifier = modifier.padding(1.dp)) {
         InputField(
-            label = "Tên tài khoản",
+            label = "Username",
             value = username,
             onValueChange = { username = it },
             leadingIcon = {
@@ -128,7 +128,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(30.dp))
 
         InputField(
-            label = "Mật khẩu",
+            label = "Password",
             value = password,
             onValueChange = { password = it },
             leadingIcon = {
@@ -163,6 +163,56 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 
     }
 }
+
+@Composable
+fun SignInScreen_2(modifier: Modifier = Modifier) {
+    var password by remember { mutableStateOf("") }
+    var rePassword by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
+    var rePasswordVisible by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier.padding(1.dp)) {
+        // Ô nhập mật khẩu
+        InputField(
+            label = "Password",
+            value = password,
+            onValueChange = { password = it },
+            leadingIcon = {
+                Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
+            },
+            trailingIcon = {
+                val icon = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val desc = if (passwordVisible) "Ẩn mật khẩu" else "Hiện mật khẩu"
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(imageVector = icon, contentDescription = desc, tint = Color.White)
+                }
+            },
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        // Ô nhập lại mật khẩu
+        InputField(
+            label = "Confirm Password",
+            value = rePassword,
+            onValueChange = { rePassword = it },
+            leadingIcon = {
+                Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
+            },
+            trailingIcon = {
+                val icon = if (rePasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val desc = if (rePasswordVisible) "Ẩn mật khẩu" else "Hiện mật khẩu"
+                IconButton(onClick = { rePasswordVisible = !rePasswordVisible }) {
+                    Icon(imageVector = icon, contentDescription = desc, tint = Color.White)
+                }
+            },
+            visualTransformation = if (rePasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        )
+    }
+}
+
+
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun SignUpText(

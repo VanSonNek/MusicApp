@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.example.musicapp.Composable.BackgroundImage
 import com.example.musicapp.Composable.MyButton
 import com.example.musicapp.Composable.SignInScreen
+import com.example.musicapp.Composable.SignInScreen_2
 import com.example.musicapp.Composable.SignUpScreen
 import com.example.musicapp.Composable.SignUpText
 import com.example.musicapp.Composable.Text_Sign
@@ -19,14 +20,14 @@ import com.example.musicapp.R
 import com.example.musicapp.Screen.Screen
 
 @Composable
-fun Sign_Up(navController: NavController){
+fun Sign_Up_2(navController: NavController){
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
         ) {
 
-            val(img , text_signin, email,  button) =createRefs()
+            val(img , text_signin, pass,  button) =createRefs()
             BackgroundImage(
                 imageResId = R.drawable.jackandvirut,
                 modifier = Modifier
@@ -46,15 +47,16 @@ fun Sign_Up(navController: NavController){
                         start.linkTo(parent.start, margin = 40.dp)
                     }
             )
-           SignUpScreen(
-               modifier = Modifier
-                   .constrainAs(email){
-                       top.linkTo(text_signin.bottom, margin = 100.dp)
-                       start.linkTo(parent.start, margin = 40.dp)
-                   }
-           )
+
+            SignInScreen_2(
+                modifier = Modifier
+                    .constrainAs(pass){
+                        top.linkTo(text_signin.bottom, margin = 100.dp)
+                        start.linkTo(parent.start, margin = 40.dp)
+                    }
+            )
             MyButton(
-                onClick = {navController.navigate(Screen.Sign_Up_2.route)},
+                onClick = {navController.navigate(Screen.Home.route)},
                 text = "SIGN UP",
                 backgroundColor = Color(0xFF9CFF00),
                 width = 300.dp,
@@ -64,7 +66,7 @@ fun Sign_Up(navController: NavController){
                 cornerRadius = 5.dp,
                 modifier = Modifier
                     .constrainAs(button){
-                        top.linkTo(email.bottom, margin = 100.dp)
+                        top.linkTo(pass.bottom, margin = 100.dp)
                         start.linkTo(parent.start, margin = 1.dp)
                         end.linkTo(parent.end)
                     }

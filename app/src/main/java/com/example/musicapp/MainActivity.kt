@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.musicapp.Screen.Home.Home
 import com.example.musicapp.Screenn.SignUp_In.Sign_Up
+import com.example.musicapp.Screenn.SignUp_In.Sign_Up_2
 import com.example.musicapp.Screenn.SignUp_In.Sign_in
 
 
@@ -23,9 +24,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.Home.route) {
+            NavHost(navController = navController, startDestination = Screen.Sign_In.route) {
                 composable(Screen.Sign_In.route) { Sign_in(navController) }
-                composable(Screen.Sign_Up.route) { Sign_Up() }
+                composable(Screen.Sign_Up.route) { Sign_Up(navController) }
+                composable(Screen.Sign_Up_2.route) { Sign_Up_2(navController) }
                 composable(Screen.Home.route) { Home() }
             }
 
