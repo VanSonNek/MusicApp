@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.musicapp.Screen.Home.Home
+import com.example.musicapp.Screenn.Home.Library
 import com.example.musicapp.Screenn.SignUp_In.Sign_Up
 import com.example.musicapp.Screenn.SignUp_In.Sign_Up_2
 import com.example.musicapp.Screenn.SignUp_In.Sign_in
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.Sign_Up.route) { Sign_Up(navController) }
                 composable(Screen.Sign_Up_2.route) { Sign_Up_2(navController) }
                 composable(Screen.Home.route) { Home() }
+                composable(Screen.Library.route) { Library() }
             }
 
         }

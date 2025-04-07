@@ -1,5 +1,6 @@
 package com.example.musicapp.Screen.Home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -34,6 +35,7 @@ fun Home() {
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun HomeContent(modifier: Modifier = Modifier) {
     LazyColumn(
@@ -186,5 +188,4 @@ fun HomeContent(modifier: Modifier = Modifier) {
 
 
 
-data class BottomNavItem(val title: String, val icon: ImageVector)
 data class Song(val title: String, val artist: String, val imageResId: Int)
