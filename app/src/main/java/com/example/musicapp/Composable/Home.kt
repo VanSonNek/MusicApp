@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,65 +29,101 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.musicapp.Screen.Home.BottomNavItem
 
 @Composable
-fun AlbumItem(title: String, artist: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
+fun AlbumItem(
+    title: String,
+    artist: String,
+    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .width(250.dp) // Kích thước cố định phù hợp với LazyRow
+            .padding(8.dp), // Khoảng cách xung quanh
+        horizontalAlignment = Alignment.CenterHorizontally // Căn giữa các phần tử
+    ) {
         Box(
             modifier = Modifier
-                .size(250.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.DarkGray)
+                .size(250.dp) // Giảm kích thước để phù hợp hơn
+                .clip(RoundedCornerShape(8.dp)) // Bo góc
+                .background(Color.DarkGray) // Màu nền khi ảnh chưa tải
         ) {
             Image(
-                painter = painterResource(id = android.R.drawable.ic_media_play),
-                contentDescription = "Album Cover",
+                painter = painterResource(id = imageResId), // Sử dụng ảnh từ resource
+                contentDescription = "Ảnh bìa của $title",
                 modifier = Modifier
-                    .size(40.dp)
-                    .align(Alignment.Center)
+                    .fillMaxSize(), // Ảnh lấp đầy Box
+                contentScale = ContentScale.Crop // Cắt ảnh để vừa khung
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp)) // Khoảng cách giữa ảnh và chữ
 
         Text(
             text = title,
             color = Color.White,
             fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            maxLines = 1, // Giới hạn 1 dòng
+            overflow = TextOverflow.Ellipsis // Cắt ngắn nếu quá dài
         )
 
         Text(
             text = artist,
             color = Color.Gray,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
 
 
 @Composable
-fun WeeklySongItem(title: String, artist: String) {
+fun WeeklySongItem(
+    title: String,
+    artist: String,
+    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(300.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color.DarkGray)
-            .padding(16.dp),
-        contentAlignment = Alignment.TopStart
     ) {
-        Column {
+        // Ảnh bìa album
+        Image(
+            painter = painterResource(id = imageResId),
+            contentDescription = "Ảnh bìa của $title",
+            modifier = Modifier
+                .fillMaxSize(), // Ảnh chiếm toàn bộ Box
+            contentScale = ContentScale.Crop // Cắt ảnh để vừa khung
+        )
+
+        // Lớp phủ chứa thông tin (title và artist)
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart) // Đặt ở góc dưới bên trái
+                .background(Color.Black.copy(alpha = 0.5f)) // Nền mờ để chữ dễ đọc
+                .padding(16.dp)
+        ) {
             Text(
                 text = title,
                 color = Color.White,
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -94,25 +131,27 @@ fun WeeklySongItem(title: String, artist: String) {
             Text(
                 text = artist,
                 color = Color.LightGray,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
-        Image(
-            painter = painterResource(id = android.R.drawable.ic_media_play),
-            contentDescription = "Album Cover",
-            modifier = Modifier
-                .size(40.dp)
-                .align(Alignment.Center)
-        )
     }
 }
 
 @Composable
-fun SongRankingItem(rank: Int, title: String, artist: String, modifier: Modifier = Modifier) {
+fun SongRankingItem(
+    rank: Int,
+    title: String,
+    artist: String,
+    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Số thứ hạng
         Text(
             text = String.format("%02d", rank),
             color = Color.White,
@@ -121,6 +160,20 @@ fun SongRankingItem(rank: Int, title: String, artist: String, modifier: Modifier
             modifier = Modifier.width(40.dp)
         )
 
+        // Ảnh bìa bài hát
+        Image(
+            painter = painterResource(id = imageResId),
+            contentDescription = "Ảnh bìa của $title",
+            modifier = Modifier
+                .size(50.dp) // Kích thước ảnh nhỏ gọn
+                .clip(RoundedCornerShape(4.dp)), // Bo góc nhẹ
+            contentScale = ContentScale.Crop
+        )
+
+        // Khoảng cách giữa ảnh và thông tin
+        Spacer(modifier = Modifier.width(12.dp))
+
+        // Thông tin bài hát
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -128,12 +181,16 @@ fun SongRankingItem(rank: Int, title: String, artist: String, modifier: Modifier
                 text = title,
                 color = Color.White,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = artist,
                 color = Color.Gray,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
