@@ -160,7 +160,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
             Song("2 Phút Hơn", "Pháo ft. Masew", R.drawable.haiphuthon),
             Song("See Tình", "Hoàng Thùy Linh", R.drawable.seetinh),
             Song("Để Mị Nói Cho Mà Nghe", "Hoàng Thùy Linh", R.drawable.deminoichomanghe),
-                Song("Waiting For You", "MONO", R.drawable.waitingforyou),
+            Song("Waiting For You", "MONO", R.drawable.waitingforyou),
             Song("Hồng Nhan", "Jack", R.drawable.hongnhan),
             Song("Bạc Phận", "Jack ft. K-ICM", R.drawable.bacphan),
             Song("Là 1 Thằng Con Trai", "Jack", R.drawable.la1thangcontrai),

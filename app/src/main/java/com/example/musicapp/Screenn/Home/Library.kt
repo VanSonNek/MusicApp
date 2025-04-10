@@ -88,15 +88,15 @@ fun LibraryContent(modifier: Modifier = Modifier) {
                 item {
                     QuickAccessItem("Đã tải", "5", Color(0xFF8A2BE2), Icons.Default.Download)
                 }
-                item {
-                    QuickAccessItem("Upload", "", Color(0xFFFFA500), Icons.Default.CloudUpload)
-                }
-                item {
-                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
-                }
-                item {
-                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
-                }
+//                item {
+//                    QuickAccessItem("Upload", "", Color(0xFFFFA500), Icons.Default.CloudUpload)
+//                }
+//                item {
+//                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
+//                }
+//                item {
+//                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
+//                }
             }
         }
 

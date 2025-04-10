@@ -57,7 +57,7 @@ Surface(modifier = Modifier.fillMaxSize()) {
                 }
         )
         MyButton(
-            onClick = {navController.navigate(Screen.Library.route)},
+            onClick = {navController.navigate(Screen.YeuThich.route)},
             text = "SIGN IN",
             backgroundColor = Color(0xFF9CFF00),
             width = 300.dp,

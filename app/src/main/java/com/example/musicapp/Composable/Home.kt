@@ -154,7 +154,7 @@ fun SongRankingItem(
         // Số thứ hạng
         Text(
             text = String.format("%02d", rank),
-            color = Color.White,
+            color = Color.Black,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.width(40.dp)
@@ -179,7 +179,7 @@ fun SongRankingItem(
         ) {
             Text(
                 text = title,
-                color = Color.White,
+                color = Color.Black,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
