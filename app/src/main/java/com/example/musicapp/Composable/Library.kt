@@ -41,7 +41,7 @@ fun QuickAccessItem(title: String, count: String, iconColor: Color, icon: ImageV
     Card(
         modifier = Modifier
             .size(100.dp) // Kích thước vuông cố định (100.dp x 100.dp)
-            .clickable { /* Xử lý khi nhấn */ },
+            .clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {

@@ -30,7 +30,7 @@ import com.example.musicapp.R
 fun Home(navController: NavHostController) {
     Scaffold(
         bottomBar = { BottomNavigation(navController) },
-        containerColor = Color.Black
+        containerColor = Color.White // đổi nền sang trắng
     ) { innerPadding ->
         HomeContent(
             modifier = Modifier
@@ -45,7 +45,7 @@ fun Home(navController: NavHostController) {
 fun HomeContent(modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
-            .background(Color.Black)
+            .background(Color.White) // nền trắng
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -60,14 +60,14 @@ fun HomeContent(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "Sơn Lầy",
-                    color = Color.White,
+                    color = Color.Black, // text màu đen
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Search",
-                    tint = Color.Gray,
+                    tint = Color.DarkGray, // icon màu tối
                     modifier = Modifier.size(40.dp)
                 )
             }
@@ -82,7 +82,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "New Albums",
-                    color = Color.White,
+                    color = Color.Black,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -109,7 +109,6 @@ fun HomeContent(modifier: Modifier = Modifier) {
         // Album List
         item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                // Danh sách ID ảnh tương ứng với từng album
                 val albumImages = listOf(
                     R.drawable.jack,
                     R.drawable.chidan,
@@ -119,7 +118,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
                     AlbumItem(
                         title = "Album ${index + 1}",
                         artist = "Artist ${index + 1}",
-                        imageResId = albumImages[index] // Truyền ID ảnh
+                        imageResId = albumImages[index]
                     )
                 }
             }
@@ -127,14 +126,14 @@ fun HomeContent(modifier: Modifier = Modifier) {
 
         // Divider
         item {
-            Divider(color = Color.DarkGray, thickness = 1.dp)
+            Divider(color = Color.LightGray, thickness = 1.dp)
         }
 
         // Geez Weekly Section
         item {
             Text(
                 text = "Geez Weekly",
-                color = Color.White,
+                color = Color.Black,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -153,7 +152,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
         item {
             Text(
                 text = "Recently Music",
-                color = Color.White,
+                color = Color.Black,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -172,17 +171,15 @@ fun HomeContent(modifier: Modifier = Modifier) {
             Song("Một Nhà", "Da LAB", R.drawable.motnha)
         )
 
-
-            itemsIndexed(songs) { index, song ->
-                SongRankingItem(
-                    rank = index + 1,
-                    title = song.title,
-                    artist = song.artist,
-                    imageResId = song.imageResId, // Truyền ảnh tương ứng
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-            }
-
+        itemsIndexed(songs) { index, song ->
+            SongRankingItem(
+                rank = index + 1,
+                title = song.title,
+                artist = song.artist,
+                imageResId = song.imageResId,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
 
         // Bottom spacer
         item {
@@ -190,6 +187,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
         }
     }
 }
+
 
 
 

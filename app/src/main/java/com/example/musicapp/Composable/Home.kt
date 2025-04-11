@@ -41,49 +41,47 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.musicapp.Screen.Screen
 import com.example.musicapp.Screenn.Home.BottomNavItem
-
 @Composable
 fun AlbumItem(
     title: String,
     artist: String,
-    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    imageResId: Int,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
-            .width(250.dp) // Kích thước cố định phù hợp với LazyRow
-            .padding(8.dp), // Khoảng cách xung quanh
-        horizontalAlignment = Alignment.CenterHorizontally // Căn giữa các phần tử
+            .width(250.dp)
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .size(250.dp) // Giảm kích thước để phù hợp hơn
-                .clip(RoundedCornerShape(8.dp)) // Bo góc
-                .background(Color.DarkGray) // Màu nền khi ảnh chưa tải
+                .size(250.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.LightGray)
         ) {
             Image(
-                painter = painterResource(id = imageResId), // Sử dụng ảnh từ resource
+                painter = painterResource(id = imageResId),
                 contentDescription = "Ảnh bìa của $title",
-                modifier = Modifier
-                    .fillMaxSize(), // Ảnh lấp đầy Box
-                contentScale = ContentScale.Crop // Cắt ảnh để vừa khung
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp)) // Khoảng cách giữa ảnh và chữ
+        Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = title,
-            color = Color.White,
+            color = Color.Black,
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
-            maxLines = 1, // Giới hạn 1 dòng
-            overflow = TextOverflow.Ellipsis // Cắt ngắn nếu quá dài
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
 
         Text(
             text = artist,
-            color = Color.Gray,
+            color = Color.DarkGray,
             fontSize = 12.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -91,12 +89,11 @@ fun AlbumItem(
     }
 }
 
-
 @Composable
 fun WeeklySongItem(
     title: String,
     artist: String,
-    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    imageResId: Int,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -104,27 +101,24 @@ fun WeeklySongItem(
             .fillMaxWidth()
             .height(300.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color.DarkGray)
+            .background(Color.LightGray)
     ) {
-        // Ảnh bìa album
         Image(
             painter = painterResource(id = imageResId),
             contentDescription = "Ảnh bìa của $title",
-            modifier = Modifier
-                .fillMaxSize(), // Ảnh chiếm toàn bộ Box
-            contentScale = ContentScale.Crop // Cắt ảnh để vừa khung
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
 
-        // Lớp phủ chứa thông tin (title và artist)
         Column(
             modifier = Modifier
-                .align(Alignment.BottomStart) // Đặt ở góc dưới bên trái
-                .background(Color.Black.copy(alpha = 0.5f)) // Nền mờ để chữ dễ đọc
+                .align(Alignment.BottomStart)
+                .background(Color.White.copy(alpha = 0.6f))
                 .padding(16.dp)
         ) {
             Text(
                 text = title,
-                color = Color.White,
+                color = Color.Black,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -135,7 +129,7 @@ fun WeeklySongItem(
 
             Text(
                 text = artist,
-                color = Color.LightGray,
+                color = Color.DarkGray,
                 fontSize = 18.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -149,14 +143,13 @@ fun SongRankingItem(
     rank: Int,
     title: String,
     artist: String,
-    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    imageResId: Int,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Số thứ hạng
         Text(
             text = String.format("%02d", rank),
             color = Color.Black,
@@ -165,20 +158,17 @@ fun SongRankingItem(
             modifier = Modifier.width(40.dp)
         )
 
-        // Ảnh bìa bài hát
         Image(
             painter = painterResource(id = imageResId),
             contentDescription = "Ảnh bìa của $title",
             modifier = Modifier
-                .size(50.dp) // Kích thước ảnh nhỏ gọn
-                .clip(RoundedCornerShape(4.dp)), // Bo góc nhẹ
+                .size(50.dp)
+                .clip(RoundedCornerShape(4.dp)),
             contentScale = ContentScale.Crop
         )
 
-        // Khoảng cách giữa ảnh và thông tin
         Spacer(modifier = Modifier.width(12.dp))
 
-        // Thông tin bài hát
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -192,7 +182,7 @@ fun SongRankingItem(
             )
             Text(
                 text = artist,
-                color = Color.Gray,
+                color = Color.DarkGray,
                 fontSize = 14.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -214,8 +204,8 @@ fun BottomNavigation(navController: NavHostController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar(
-        containerColor = Color.Black,
-        contentColor = Color.White
+        containerColor = Color.White,
+        contentColor = Color.Black
     ) {
         items.forEach { screen ->
             NavigationBarItem(
@@ -242,11 +232,11 @@ fun BottomNavigation(navController: NavHostController) {
                     Text(text = screen.title, fontSize = 12.sp)
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
+                    selectedIconColor = Color.Black,
                     unselectedIconColor = Color.Gray,
-                    selectedTextColor = Color.White,
+                    selectedTextColor = Color.Black,
                     unselectedTextColor = Color.Gray,
-                    indicatorColor = Color.DarkGray
+                    indicatorColor = Color.LightGray
                 )
             )
         }

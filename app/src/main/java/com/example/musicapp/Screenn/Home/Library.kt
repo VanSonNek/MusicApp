@@ -182,7 +182,7 @@ fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostControll
         // Create Playlist Button
         item {
             OutlinedButton(
-                onClick = { /* Xử lý tạo playlist */ },
+                onClick = { navController.navigate(Screen.AddPlaylist.route)  },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
