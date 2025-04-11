@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.musicapp.Composable.BottomNavigation
 import com.example.musicapp.Composable.MyButton
 import com.example.musicapp.Composable.PlaylistHeader
@@ -38,7 +39,7 @@ import com.example.musicapp.Screen.Home.Song
 import com.example.musicapp.Screen.Screen
 
 @Composable
-fun Playlist(navController: NavController) {
+fun Playlist(navController: NavHostController) {
 
     Scaffold(
         topBar = {
@@ -47,7 +48,7 @@ fun Playlist(navController: NavController) {
         modifier = Modifier
             .background(Color.White)
             .windowInsetsPadding(WindowInsets.systemBars),
-        bottomBar = { BottomNavigation() }
+        bottomBar = { BottomNavigation(navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier

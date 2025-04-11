@@ -1,13 +1,23 @@
 package com.example.musicapp.Screen
 
-sealed class Screen(val route: String) {
-    object Sign_In : Screen("sign_in")
-    object Sign_Up : Screen("sign_up")
-    object Sign_Up_2 : Screen("sign_up_2")
-    object Home : Screen("home")
-    object Library : Screen("library")
-    object Playlist : Screen("playlist")
-    object AddPlaylist : Screen("addplaylist")
-    object YeuThich : Screen("yeuthich")
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.graphics.vector.ImageVector
 
+sealed class Screen(
+    val route: String,
+    val title: String,
+    val icon: ImageVector
+) {
+
+    object Sign_In : Screen("sign_in", "Đăng nhập", Icons.Default.Person)
+    object Sign_Up : Screen("sign_up", "Đăng ký", Icons.Default.PersonAdd)
+    object Sign_Up_2 : Screen("sign_up_2", "Thông tin", Icons.Default.Info)
+    object Home : Screen("home", "Home", Icons.Default.Home)
+    object Library : Screen("library", "Library", Icons.Default.LibraryMusic)
+    object Playlist : Screen("playlist", "Playlist", Icons.Default.QueueMusic)
+    object AddPlaylist : Screen("addplaylist", "Thêm", Icons.Default.Add)
+    object YeuThich : Screen("yeuthich", "Yêu thích", Icons.Default.Favorite)
+    object Account : Screen("account", "Account", Icons.Default.Person)
+    object Chuabiet : Screen("Chuabiet", "Chuabiet", Icons.Default.Person)
 }

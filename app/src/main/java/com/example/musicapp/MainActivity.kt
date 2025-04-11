@@ -14,7 +14,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.musicapp.Screen.Home.Home
+import com.example.musicapp.Screenn.Home.Account
 import com.example.musicapp.Screenn.Home.AddPlaylist
+import com.example.musicapp.Screenn.Home.Chuabiet
 import com.example.musicapp.Screenn.Home.Library
 import com.example.musicapp.Screenn.Home.Playlist
 import com.example.musicapp.Screenn.Home.YeuThich
@@ -32,8 +34,10 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.Sign_In.route) { Sign_in(navController) }
                 composable(Screen.Sign_Up.route) { Sign_Up(navController) }
                 composable(Screen.Sign_Up_2.route) { Sign_Up_2(navController) }
-                composable(Screen.Home.route) { Home() }
-                composable(Screen.Library.route) { Library() }
+                composable(Screen.Home.route) { Home(navController) }
+                composable(Screen.Library.route) { Library(navController) }
+                composable(Screen.Account.route) { Account(navController) }
+                composable(Screen.Chuabiet.route) { Chuabiet(navController) }
                 composable(Screen.Playlist.route) { Playlist(navController) }
                 composable(Screen.AddPlaylist.route) { AddPlaylist(navController) }
                 composable(Screen.YeuThich.route) { YeuThich(navController) }

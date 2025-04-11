@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.musicapp.Composable.BottomNavigation
 import com.example.musicapp.Composable.MyButton
 import com.example.musicapp.Composable.PlaylistHeader
@@ -38,7 +39,7 @@ import com.example.musicapp.Screen.Screen
 
 @SuppressLint("ResourceAsColor")
 @Composable
-fun YeuThich(navController: NavController) {
+fun YeuThich(navController: NavHostController) {
 
     Scaffold(
         topBar = {
@@ -47,7 +48,7 @@ fun YeuThich(navController: NavController) {
         modifier = Modifier
             .background(Color.White)
             .windowInsetsPadding(WindowInsets.systemBars),
-        bottomBar = { BottomNavigation() }
+        bottomBar = { BottomNavigation(navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier

@@ -36,7 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun QuickAccessItem(title: String, count: String, iconColor: Color, icon: ImageVector) {
+fun QuickAccessItem(title: String, count: String, iconColor: Color, icon: ImageVector, modifier: Modifier = Modifier
+                    ,onClick: () -> Unit ) {
     Card(
         modifier = Modifier
             .size(100.dp) // Kích thước vuông cố định (100.dp x 100.dp)

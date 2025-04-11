@@ -50,6 +50,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.musicapp.Composable.AddPlaylists
 import com.example.musicapp.Composable.BottomNavigation
 import com.example.musicapp.Composable.SongRankingItem
@@ -60,15 +61,15 @@ import com.example.musicapp.Screen.Home.Song
 import com.example.musicapp.Screen.Screen
 
 @Composable
-fun AddPlaylist(navController: NavController) {
+fun AddPlaylist(navController: NavHostController) {
     Scaffold(
-    topBar = {
-        TopBar(navController = navController, "Playlist")
-    },
+        topBar = {
+            TopBar(navController = navController, title = "Playlist")
+        },
         modifier = Modifier
             .background(Color.White)
             .windowInsetsPadding(WindowInsets.systemBars),
-        bottomBar = { BottomNavigation() }
+        bottomBar = { BottomNavigation(navController) } // lỗi sẽ hết
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -76,7 +77,6 @@ fun AddPlaylist(navController: NavController) {
                 .padding(innerPadding)
                 .background(Color.White)
         ) {
-            // Search Bar
             SearchBar()
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -93,22 +93,19 @@ fun AddPlaylist(navController: NavController) {
                 Song("Một Nhà", "Da LAB", R.drawable.motnha)
             )
 
-        LazyColumn {
-            itemsIndexed(songs) { index, song ->
-                AddPlaylists(
-                    title = song.title,
-                    artist = song.artist,
-                    imageResId = song.imageResId, // Truyền ảnh tương ứng
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
+            LazyColumn {
+                itemsIndexed(songs) { index, song ->
+                    AddPlaylists(
+                        title = song.title,
+                        artist = song.artist,
+                        imageResId = song.imageResId,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
             }
-        }
+
             Spacer(modifier = Modifier.height(8.dp))
-
-            // Song List
-//            SongList(songs = songs)
         }
-
     }
 }
 

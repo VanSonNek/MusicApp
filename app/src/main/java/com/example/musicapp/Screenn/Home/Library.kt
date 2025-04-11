@@ -2,6 +2,7 @@ package com.example.musicapp.Screenn.Home
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -18,16 +19,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.musicapp.Composable.BottomNavigation
 import com.example.musicapp.Composable.PlaylistItem
 import com.example.musicapp.Composable.QuickAccessItem
 import com.example.musicapp.Composable.RecentlyPlayedItem
 import com.example.musicapp.Composable.TabItem
 import com.example.musicapp.R
+import com.example.musicapp.Screen.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Library() {
+fun Library(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,19 +56,24 @@ fun Library() {
                 )
             )
         },
-        bottomBar = { BottomNavigation() },
+        bottomBar = { BottomNavigation(navController) },
         containerColor = Color(0xFFF5F5F5) // Màu nền của toàn bộ màn hình
     ) { innerPadding ->
         LibraryContent(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
+                .fillMaxSize(),
+            navController = navController
         )
+
+
     }
 }
 
 @Composable
-fun LibraryContent(modifier: Modifier = Modifier) {
+fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostController)
+
+ {
     LazyColumn(
         modifier = modifier
             .background(Color(0xFFF5F5F5))
@@ -83,10 +91,15 @@ fun LibraryContent(modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 item {
-                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
+                    QuickAccessItem("Yêu thích",
+                        "6",
+                        Color(0xFF00BFFF),
+                        Icons.Default.Favorite,
+                        onClick = { navController.navigate(Screen.YeuThich.route) }
+                        )
                 }
                 item {
-                    QuickAccessItem("Đã tải", "5", Color(0xFF8A2BE2), Icons.Default.Download)
+                    QuickAccessItem("Đã tải", "5", Color(0xFF8A2BE2), Icons.Default.Download, onClick = {})
                 }
 //                item {
 //                    QuickAccessItem("Upload", "", Color(0xFFFFA500), Icons.Default.CloudUpload)
