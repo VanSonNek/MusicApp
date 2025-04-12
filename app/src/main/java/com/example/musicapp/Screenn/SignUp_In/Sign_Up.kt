@@ -28,7 +28,7 @@ fun Sign_Up(navController: NavController){
 
             val(img , text_signin, email,  button) =createRefs()
             BackgroundImage(
-                imageResId = R.drawable.jackandvirut,
+                imageResId = R.drawable.anh4_signup_in,
                 modifier = Modifier
                     .constrainAs(img) {
                         top.linkTo(parent.top)

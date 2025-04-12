@@ -59,7 +59,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Sơn Lầy",
+                    text = "Music App",
                     color = Color.Black, // text màu đen
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold
@@ -132,7 +132,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
         // Geez Weekly Section
         item {
             Text(
-                text = "Geez Weekly",
+                text = "Weekly",
                 color = Color.Black,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold

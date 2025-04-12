@@ -30,7 +30,7 @@ Surface(modifier = Modifier.fillMaxSize()) {
 
         val(img , text_signin, email_pass, forget, button, sign_text ) =createRefs()
         BackgroundImage(
-            imageResId = R.drawable.jackandvirut,
+            imageResId = R.drawable.anh2_signup_in,
             modifier = Modifier
                 .constrainAs(img) {
                     top.linkTo(parent.top)

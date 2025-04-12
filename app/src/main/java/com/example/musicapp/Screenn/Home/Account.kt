@@ -23,8 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.musicapp.Composable.BottomNavigation
+import com.example.musicapp.Composable.ProfileHeader
+import com.example.musicapp.Composable.ServicesSection
+import com.example.musicapp.Composable.TopBar
 import com.example.musicapp.R
 
 @Composable
@@ -40,117 +44,67 @@ fun Account(navController: NavHostController){
         )
     }
 }
+
 @Composable
-fun AcountContent(modifier: Modifier = Modifier){
-    Column(
-        modifier = Modifier
+fun AcountContent(modifier: Modifier = Modifier) {
+    ConstraintLayout(
+        modifier = modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp)
+            .padding(1.dp)
     ) {
-        TopBar()
+        // Tạo các tham chiếu
+        val (topBarRef, profileHeaderRef, servicesRef) = createRefs()
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        ProfileHeader(name = "Văn Sơn", plan = "BASIC")
-
-        Spacer(modifier = Modifier.height(30.dp))
-
-
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        ServicesSection()
-    }
-}
-
-
-
-@Composable
-fun TopBar() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text("Cá nhân", color = Color.Black, fontSize = 35.sp, fontWeight = FontWeight.Bold)
-        Row {
-            Icon(Icons.Default.Settings, contentDescription = null, tint = Color.Black)
-            Spacer(Modifier.width(8.dp))
-            Icon(Icons.Default.Notifications, contentDescription = null, tint = Color.Black)
-            Spacer(Modifier.width(8.dp))
-            Icon(Icons.Default.Search, contentDescription = null, tint = Color.Black)
-        }
-    }
-}
-
-@Composable
-fun ProfileHeader(name: String, plan: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painterResource(id = R.drawable.jack), // dùng tên ảnh của bạn
-            contentDescription = "Avatar",
-            contentScale = ContentScale.Crop,
+        TopBar(
             modifier = Modifier
-                .size(80.dp)
-                .clip(CircleShape)
+                .constrainAs(topBarRef) {
+                    top.linkTo(parent.top, margin = 10.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
         )
-        Spacer(modifier = Modifier.width(12.dp))
-        Column {
-            Text(text = name, color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-            Text(text = plan, color = Color.Gray)
-        }
+
+        ProfileHeader(
+            name = "Văn Sơn",
+            plan = "BASIC",
+            modifier = Modifier
+                .constrainAs(profileHeaderRef) {
+                    top.linkTo(topBarRef.bottom, margin = 40.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end, margin = 200.dp)
+                }
+        )
+
+        ServicesSection(
+            modifier = Modifier
+                .constrainAs(servicesRef) {
+                    top.linkTo(profileHeaderRef.bottom, margin = 50.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end, margin = 170.dp)
+                },
+            serviceTitle = "Dịch vụ",
+            serviceItems = listOf(
+                Icons.Default.DataSaverOn to "Tiết kiệm 3G/4G truy cập",
+                Icons.Default.Code to "Nhập Code"
+            ),
+            personalTitle = "Cá nhân",
+            personalItems = listOf(
+                Icons.Default.Favorite to "Danh sách yêu thích",
+                Icons.Default.QueueMusic to "Danh sách Playlist",
+                Icons.Default.FileDownload to "Danh sách tải xuống"
+            ),
+            securityTitle = "Tài khoản & Bảo mật",
+            securityItems = listOf(
+                Icons.Default.Lock to "Thay đổi mật khẩu",
+                Icons.Default.Person to "Cập nhật thông tin cá nhân",
+                Icons.Default.ExitToApp to "Đăng xuất"
+            )
+        )
+
     }
 }
 
 
-
-
-@Composable
-fun ServicesSection() {
-    Column {
-        Text("Dịch vụ", color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(15.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.DataSaverOn, contentDescription = null, tint = Color.DarkGray)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Tiết kiệm 3G/4G truy cập", color = Color.DarkGray)
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Code, contentDescription = null, tint = Color.DarkGray)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Nhập Code", color = Color.DarkGray)
-        }
-    }
-
-    Spacer(modifier = Modifier.height(30.dp))
-
-    Column {
-        Text("Cá nhân", color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(15.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Favorite, contentDescription = null, tint = Color.DarkGray)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Danh sách yêu thích", color = Color.DarkGray)
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.QueueMusic, contentDescription = null, tint = Color.DarkGray)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Danh sách Playlist", color = Color.DarkGray)
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.FileDownload, contentDescription = null, tint = Color.DarkGray)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Danh sách tải xuống", color = Color.DarkGray)
-        }
-    }
-}
 
 

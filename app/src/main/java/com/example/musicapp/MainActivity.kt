@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.Account.route) {
+            NavHost(navController = navController, startDestination = Screen.Sign_In.route) {
                 composable(Screen.Sign_In.route) { Sign_in(navController) }
                 composable(Screen.Sign_Up.route) { Sign_Up(navController) }
                 composable(Screen.Sign_Up_2.route) { Sign_Up_2(navController) }
