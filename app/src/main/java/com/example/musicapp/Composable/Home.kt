@@ -196,7 +196,7 @@ fun BottomNavigation(navController: NavHostController) {
     val items = listOf(
         Screen.Home,
         Screen.Library,
-        Screen.Chuabiet,
+        Screen.Explore,
         Screen.Account
     )
 

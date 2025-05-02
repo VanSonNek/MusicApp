@@ -19,5 +19,6 @@ sealed class Screen(
     object AddPlaylist : Screen("addplaylist", "Thêm", Icons.Default.Add)
     object YeuThich : Screen("yeuthich", "Yêu thích", Icons.Default.Favorite)
     object Account : Screen("account", "Account", Icons.Default.Person)
-    object Chuabiet : Screen("Chuabiet", "Chuabiet", Icons.Default.Person)
+    object Explore : Screen("Explore", "Explore", Icons.Default.Person)
+    object PlayMusic : Screen("PlayMusic", "PlayMusic", Icons.Default.Person)
 }

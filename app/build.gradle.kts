@@ -54,7 +54,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.0.0") // Material 3
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.navigation:navigation-compose:2.7.3")
-
+    implementation("io.coil-kt:coil-compose:2.4.0")
     // Các dependencies khác
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -16,8 +16,10 @@ import androidx.navigation.compose.*
 import com.example.musicapp.Screen.Home.Home
 import com.example.musicapp.Screenn.Home.Account
 import com.example.musicapp.Screenn.Home.AddPlaylist
-import com.example.musicapp.Screenn.Home.Chuabiet
+
+import com.example.musicapp.Screenn.Home.Explore
 import com.example.musicapp.Screenn.Home.Library
+import com.example.musicapp.Screenn.Home.PlayMusic
 import com.example.musicapp.Screenn.Home.Playlist
 import com.example.musicapp.Screenn.Home.YeuThich
 import com.example.musicapp.Screenn.SignUp_In.Sign_Up
@@ -37,10 +39,11 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.Home.route) { Home(navController) }
                 composable(Screen.Library.route) { Library(navController) }
                 composable(Screen.Account.route) { Account(navController) }
-                composable(Screen.Chuabiet.route) { Chuabiet(navController) }
+                composable(Screen.Explore.route) { Explore(navController) }
                 composable(Screen.Playlist.route) { Playlist(navController) }
                 composable(Screen.AddPlaylist.route) { AddPlaylist(navController) }
                 composable(Screen.YeuThich.route) { YeuThich(navController) }
+                composable(Screen.PlayMusic.route) { PlayMusic(navController) }
             }
 
         }
