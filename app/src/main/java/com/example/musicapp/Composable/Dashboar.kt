@@ -41,6 +41,7 @@ import androidx.compose.material.icons.filled.VisibilityOff
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -108,18 +109,21 @@ fun InputField(
 }
 
 
-
 @Composable
-fun SignInScreen(modifier: Modifier = Modifier) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-
+fun SignInScreen(
+    modifier: Modifier = Modifier,
+    username: String,
+    password: String,
+    onUsernameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    passwordVisible: Boolean,
+    onPasswordVisibilityToggle: () -> Unit
+) {
     Column(modifier = modifier.padding(1.dp)) {
         InputField(
             label = "Username",
             value = username,
-            onValueChange = { username = it },
+            onValueChange = onUsernameChange,
             leadingIcon = {
                 Icon(Icons.Filled.Email, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             }
@@ -130,14 +134,14 @@ fun SignInScreen(modifier: Modifier = Modifier) {
         InputField(
             label = "Password",
             value = password,
-            onValueChange = { password = it },
+            onValueChange = onPasswordChange,
             leadingIcon = {
                 Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             },
             trailingIcon = {
                 val icon = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
                 val desc = if (passwordVisible) "Ẩn mật khẩu" else "Hiện mật khẩu"
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                IconButton(onClick = onPasswordVisibilityToggle) {
                     Icon(imageVector = icon, contentDescription = desc, tint = Color.White)
                 }
             },
@@ -145,29 +149,30 @@ fun SignInScreen(modifier: Modifier = Modifier) {
         )
     }
 }
-@Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
-    var email by remember { mutableStateOf("") }
 
+@Composable
+fun SignUpScreen(
+    emailState: MutableState<String>,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.padding(1.dp)) {
         InputField(
             label = "Email",
-            value = email,
-            onValueChange = { email = it },
+            value = emailState.value,
+            onValueChange = { emailState.value = it },
             leadingIcon = {
-                // Đặt icon bên ngoài TextField, ngoài đường gạch dưới
                 Icon(Icons.Filled.Email, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             }
         )
-
-
     }
 }
 
 @Composable
-fun SignInScreen_2(modifier: Modifier = Modifier) {
-    var password by remember { mutableStateOf("") }
-    var rePassword by remember { mutableStateOf("") }
+fun SignInScreen_2(
+    modifier: Modifier = Modifier,
+    passwordState: MutableState<String>,
+    rePasswordState: MutableState<String>
+) {
     var passwordVisible by remember { mutableStateOf(false) }
     var rePasswordVisible by remember { mutableStateOf(false) }
 
@@ -175,8 +180,8 @@ fun SignInScreen_2(modifier: Modifier = Modifier) {
         // Ô nhập mật khẩu
         InputField(
             label = "Password",
-            value = password,
-            onValueChange = { password = it },
+            value = passwordState.value,
+            onValueChange = { passwordState.value = it },
             leadingIcon = {
                 Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             },
@@ -195,8 +200,8 @@ fun SignInScreen_2(modifier: Modifier = Modifier) {
         // Ô nhập lại mật khẩu
         InputField(
             label = "Confirm Password",
-            value = rePassword,
-            onValueChange = { rePassword = it },
+            value = rePasswordState.value,
+            onValueChange = { rePasswordState.value = it },
             leadingIcon = {
                 Icon(Icons.Filled.Lock, contentDescription = null, tint = Color.White.copy(alpha = 0.8f))
             },

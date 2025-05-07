@@ -21,4 +21,6 @@ sealed class Screen(
     object Account : Screen("account", "Account", Icons.Default.Person)
     object Explore : Screen("Explore", "Explore", Icons.Default.Person)
     object PlayMusic : Screen("PlayMusic", "PlayMusic", Icons.Default.Person)
+    object MusicPlayer : Screen("music_player", "Phát nhạc", Icons.Default.PlayArrow)
+
 }

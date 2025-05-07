@@ -1,8 +1,12 @@
 package com.example.musicapp.Screenn.SignUp_In
 
+import android.util.Log
+import android.util.Patterns
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -15,11 +19,14 @@ import com.example.musicapp.Composable.SignInScreen
 import com.example.musicapp.Composable.SignUpScreen
 import com.example.musicapp.Composable.SignUpText
 import com.example.musicapp.Composable.Text_Sign
+import com.example.musicapp.Model.User
 import com.example.musicapp.R
 import com.example.musicapp.Screen.Screen
+import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun Sign_Up(navController: NavController){
+    val emailState = remember { mutableStateOf("") }
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(
             modifier = Modifier
@@ -46,15 +53,27 @@ fun Sign_Up(navController: NavController){
                         start.linkTo(parent.start, margin = 40.dp)
                     }
             )
-           SignUpScreen(
-               modifier = Modifier
-                   .constrainAs(email){
-                       top.linkTo(text_signin.bottom, margin = 100.dp)
-                       start.linkTo(parent.start, margin = 40.dp)
-                   }
-           )
+            SignUpScreen(
+                emailState = emailState,
+                modifier = Modifier.constrainAs(email) {
+                    top.linkTo(text_signin.bottom, margin = 100.dp)
+                    start.linkTo(parent.start, margin = 40.dp)
+                }
+            )
             MyButton(
-                onClick = {navController.navigate(Screen.Sign_Up_2.route)},
+                onClick = {
+                    val email = emailState.value
+                    Log.d("SignUp", "Email nhập vào: $email")
+                    if (email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        // Lưu email vào savedStateHandle để truyền qua màn hình tiếp theo
+                        navController.currentBackStackEntry?.savedStateHandle?.set("email", email)
+                        navController.navigate(Screen.Sign_Up_2.route)
+                    } else {
+                        Log.e("SignUp", "Email không hợp lệ hoặc trống")
+                    }
+
+
+                },
                 text = "SIGN UP",
                 backgroundColor = Color(0xFF9CFF00),
                 width = 300.dp,
@@ -69,7 +88,6 @@ fun Sign_Up(navController: NavController){
                         end.linkTo(parent.end)
                     }
             )
-
 
         }
     }

@@ -19,6 +19,7 @@ import com.example.musicapp.Screenn.Home.AddPlaylist
 
 import com.example.musicapp.Screenn.Home.Explore
 import com.example.musicapp.Screenn.Home.Library
+import com.example.musicapp.Screenn.Home.MusicPlayerComposableScreen
 import com.example.musicapp.Screenn.Home.PlayMusic
 import com.example.musicapp.Screenn.Home.Playlist
 import com.example.musicapp.Screenn.Home.YeuThich
@@ -44,6 +45,12 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.AddPlaylist.route) { AddPlaylist(navController) }
                 composable(Screen.YeuThich.route) { YeuThich(navController) }
                 composable(Screen.PlayMusic.route) { PlayMusic(navController) }
+                // Thêm route cho MusicPlayer
+                composable(Screen.MusicPlayer.route) {
+                    MusicPlayerComposableScreen(navController)
+                }
+
+
             }
 
         }
