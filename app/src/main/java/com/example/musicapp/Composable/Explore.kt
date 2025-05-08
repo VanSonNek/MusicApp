@@ -27,73 +27,66 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.musicapp.R
 import com.example.musicapp.Screenn.Home.Song
 
 @Composable
 fun SongItem(
     song: Song,
     modifier: Modifier = Modifier,
-    onMenuClick: () -> Unit = {}
+    onMenuClick: () -> Unit
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Số thứ tự
+        // Hiển thị số thứ tự
         Text(
             text = song.number,
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier.width(32.dp)
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(end = 16.dp)
         )
 
-        // Album artwork - Sử dụng AsyncImage thay cho Image
+        // Hình ảnh bài hát từ URL
         AsyncImage(
-            model = song.imageUrl, // Sử dụng URL trực tiếp
-            contentDescription = "Album cover",
-            contentScale = ContentScale.Crop,
+            model = song.imageUrl,
+            contentDescription = song.title,
             modifier = Modifier
-                .size(45.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .size(50.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
         )
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        // Song info
+        // Thông tin bài hát
         Column(
             modifier = Modifier.weight(1f)
         ) {
             Text(
                 text = song.title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
                 color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
             Text(
                 text = song.artist,
+                color = Color.Gray,
                 fontSize = 14.sp,
-                color = Color.LightGray,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
 
-        // Menu 3 chấm
-        IconButton(
-            onClick = onMenuClick,
-            modifier = Modifier.size(48.dp)
-        ) {
+        IconButton(onClick = onMenuClick) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
-                contentDescription = "More options",
-                tint = Color.LightGray
+                contentDescription = "More",
+                tint = Color.White
             )
         }
     }

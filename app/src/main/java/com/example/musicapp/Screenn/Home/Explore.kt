@@ -42,10 +42,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.musicapp.Composable.BottomNavigation
 import com.example.musicapp.Composable.SongItem
-import com.example.musicapp.Model.BaiHat
+
 import com.example.musicapp.R
 import com.example.musicapp.Screen.Screen
-import com.example.musicapp.ViewModel.AddSongToFirebase
+
 
 import com.example.musicapp.ViewModel.DanhSachBaiHatVieModel
 
@@ -65,14 +65,15 @@ fun Explore(navController: NavHostController) {
     }
 }
 
-// GeezChartScreen.kt
 @Composable
 fun GeezChartScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController? = null
 ) {
+    // Lấy danh sách bài hát từ ViewModel
     val danhsachbaihat: DanhSachBaiHatVieModel = viewModel()
     val songs = danhsachbaihat.songsList
+    val artistsMap = danhsachbaihat.artistsMap // Lấy dữ liệu nghệ sĩ từ ViewModel
 
     Column(
         modifier = modifier
@@ -133,7 +134,12 @@ fun GeezChartScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         // Danh sách bài hát
-        val sortedSongs = songs.sortedByDescending { it.luotNghe } // Sắp xếp theo lượt nghe giảm dần
+        val sortedSongs = songs.sortedByDescending {
+            val luotNghe = it["luotNghe"] as? Int ?: 0
+            Log.d("GeezChartScreen", "Song: ${it["title"]}, Luot Nghe: $luotNghe")
+            luotNghe
+        }
+
 
         Surface(
             modifier = Modifier
@@ -154,18 +160,22 @@ fun GeezChartScreen(
                     modifier = Modifier.padding(4.dp)
                 ) {
                     sortedSongs.forEachIndexed { index, song ->
+                        // Lấy tên nghệ sĩ từ artistId
+                        val artistId = song["artistId"] as? String ?: ""
+                        val artistName = artistsMap[artistId]?.get("name") as? String ?: "Không có tên nghệ sĩ"
+
                         SongItem(
                             song = Song(
-                                number = (index + 1).toString().padStart(2, '0'), // Tạo số tự động
-                                title = song.title,
-                                artist = song.artist,
-                                imageUrl = song.imageUrl,
-                                luotNghe = song.luotNghe
+                                number = (index + 1).toString().padStart(2, '0'), // Tạo số tự động từ chỉ số vòng lặp
+                                title = song["title"] as? String ?: "Không có tiêu đề",
+                                artist = artistName, // Chuyển từ artistId thành artistName
+                                imageUrl = song["imageUrl"] as? String ?: "Không có ảnh",
+                                luotNghe = song["luotNghe"] as? Int ?: 0
                             ),
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
                                 .clickable {
-                                    navController?.navigate(Screen.PlayMusic.route)
+                                    navController?.navigate("${Screen.PlayMusic.route}/${song["id"]}")
                                 },
                             onMenuClick = {}
                         )
@@ -180,12 +190,10 @@ fun GeezChartScreen(
                 }
             }
         }
-
-
-//        // Có thể tạm ẩn nút thêm nếu không cần thiết
-         AddSongToFirebase(danhSachBaiHat = danhsachbaihat)
     }
 }
+
+
 data class Song(
     val number: String,
     val title: String,

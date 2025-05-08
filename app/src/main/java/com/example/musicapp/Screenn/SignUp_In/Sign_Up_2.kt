@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.example.musicapp.Composable.*
-import com.example.musicapp.Model.User
+
 import com.example.musicapp.R
 import com.example.musicapp.Screen.Screen
 import com.google.firebase.auth.ktx.auth
@@ -74,14 +74,13 @@ fun Sign_Up_2(navController: NavController) {
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     val userId = auth.currentUser?.uid
-                                    // Chỉ lưu email, không lưu password
-                                    val user = User(email = email)
-
+                                    // Lưu thông tin email vào Firebase mà không sử dụng đối tượng User
                                     userId?.let { uid ->
                                         FirebaseDatabase.getInstance()
                                             .getReference("users")
                                             .child(uid)
-                                            .setValue(user)
+                                            .child("email") // Lưu email trực tiếp
+                                            .setValue(email)
                                             .addOnSuccessListener {
                                                 navController.navigate(Screen.Home.route)
                                             }

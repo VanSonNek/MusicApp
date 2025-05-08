@@ -19,7 +19,7 @@ import com.example.musicapp.Composable.SignInScreen
 import com.example.musicapp.Composable.SignUpScreen
 import com.example.musicapp.Composable.SignUpText
 import com.example.musicapp.Composable.Text_Sign
-import com.example.musicapp.Model.User
+
 import com.example.musicapp.R
 import com.example.musicapp.Screen.Screen
 import com.google.firebase.database.FirebaseDatabase
