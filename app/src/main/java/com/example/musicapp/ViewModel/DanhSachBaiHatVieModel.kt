@@ -13,61 +13,96 @@ import com.google.firebase.ktx.Firebase
 
 class DanhSachBaiHatVieModel : ViewModel() {
     private val database = Firebase.database
-    private val songsRef = database.getReference("Songs") // Tham chiếu đến bảng "Songs"
-    private val artistsRef = database.getReference("artists") // Tham chiếu đến bảng "artists"
+    private val songsRef = database.getReference("Songs")
+    private val artistsRef = database.getReference("artists")
 
-    var songsList by mutableStateOf<List<Map<String, Any>>>(emptyList())  // Dữ liệu bài hát dạng Map
+    var songsList by mutableStateOf<List<Map<String, Any>>>(emptyList())
         private set
 
-    var artistsMap by mutableStateOf<Map<String, Map<String, Any>>>(emptyMap())  // Dữ liệu nghệ sĩ dạng Map
+    var artistsMap by mutableStateOf<Map<String, Map<String, Any>>>(emptyMap())
         private set
 
     init {
-        loadSongsFromFirebase()
-        loadArtistsFromFirebase()
+        // Tải nghệ sĩ trước, sau khi tải xong mới tải bài hát
+        loadArtistsFromFirebase {
+            loadSongsFromFirebase()
+        }
     }
 
-    // Hàm để lấy tất cả các nghệ sĩ từ Firebase
-    private fun loadArtistsFromFirebase() {
-        artistsRef.addValueEventListener(object : ValueEventListener {
+    private fun loadArtistsFromFirebase(onComplete: () -> Unit) {
+        artistsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val artists = mutableMapOf<String, Map<String, Any>>()
                 for (childSnapshot in snapshot.children) {
-                    val artistData = childSnapshot.value as? Map<String, Any>
-                    artistData?.let { artists[childSnapshot.key ?: ""] = it }
+                    val artistId = childSnapshot.key ?: continue
+                    val artistData = childSnapshot.value as? Map<String, Any> ?: continue
+                    artists[artistId] = artistData
                 }
                 artistsMap = artists
-                Log.d("Firebase", "Danh sách nghệ sĩ đã được tải: $artists")
+                Log.d("Firebase", "Đã tải xong ${artists.size} nghệ sĩ")
+                onComplete()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("Firebase", "Lỗi khi tải dữ liệu nghệ sĩ: ${error.message}")
+                Log.e("Firebase", "Lỗi tải nghệ sĩ: ${error.message}")
+                onComplete() // Vẫn tiếp tục tải bài hát dù có lỗi
             }
         })
     }
 
-    // Hàm để lấy tất cả các bài hát từ Firebase
     private fun loadSongsFromFirebase() {
-        songsRef.addValueEventListener(object : ValueEventListener {
+        songsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val songs = mutableListOf<Map<String, Any>>()
                 for (childSnapshot in snapshot.children) {
-                    val songData = childSnapshot.value as? Map<String, Any>
-                    songData?.let { songs.add(it) }
+                    try {
+                        val songData = childSnapshot.value as? Map<String, Any> ?: continue
+                        val processedSong = processSongData(songData)
+                        songs.add(processedSong)
+                    } catch (e: Exception) {
+                        Log.e("Firebase", "Lỗi xử lý bài hát ${childSnapshot.key}: ${e.message}")
+                    }
                 }
-                // Thêm tên nghệ sĩ vào danh sách bài hát
-                val songsWithArtists = songs.map { song ->
-                    val artistId = song["artistId"] as? String ?: ""
-                    val artistName = artistsMap[artistId]?.get("name") as? String ?: "Không có tên nghệ sĩ"
-                    song + ("artistName" to artistName)
-                }
-                songsList = songsWithArtists
-                Log.d("Firebase", "Danh sách bài hát đã được tải: $songsWithArtists")
+                songsList = songs
+                Log.d("Firebase", "Đã tải xong ${songs.size} bài hát")
+                logSongData() // Log chi tiết dữ liệu bài hát
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.e("Firebase", "Lỗi khi tải dữ liệu bài hát: ${error.message}")
+                Log.e("Firebase", "Lỗi tải bài hát: ${error.message}")
             }
         })
+    }
+
+    private fun processSongData(rawSong: Map<String, Any>): Map<String, Any> {
+        return mutableMapOf<String, Any>().apply {
+            putAll(rawSong) // Copy tất cả dữ liệu gốc
+
+            // Xử lý artistName
+            val artistId = rawSong["artistId"] as? String ?: ""
+            val artistName = artistsMap[artistId]?.get("name") as? String ?: "Unknown Artist"
+            put("artistName", artistName)
+
+            // Xử lý luotNghe
+            val luotNghe = when (val plays = rawSong["luotNghe"]) {
+                is Long -> plays.toInt()
+                is Int -> plays
+                is String -> plays.toIntOrNull() ?: 0
+                else -> 0
+            }
+            put("luotNghe", luotNghe)
+        }
+    }
+
+    private fun logSongData() {
+        songsList.forEach { song ->
+            Log.d("SongData", """
+                Title: ${song["title"]}
+                Artist: ${song["artistName"]}
+                LuotNghe: ${song["luotNghe"]} (${song["luotNghe"]?.javaClass?.simpleName})
+                Image: ${song["imageUrl"]}
+                ======================
+            """.trimIndent())
+        }
     }
 }

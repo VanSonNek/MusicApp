@@ -21,6 +21,7 @@ import com.example.musicapp.Screenn.Home.AddPlaylist
 import com.example.musicapp.Screenn.Home.Explore
 import com.example.musicapp.Screenn.Home.Library
 import com.example.musicapp.Screenn.Home.MusicPlayerComposableScreen
+import com.example.musicapp.Screenn.Home.PlayMusic
 //import com.example.musicapp.Screenn.Home.PlayMusic
 import com.example.musicapp.Screenn.Home.Playlist
 import com.example.musicapp.Screenn.Home.YeuThich
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = Screen.Home.route) {
+            NavHost(navController = navController, startDestination = Screen.Sign_In.route) {
                 composable(Screen.Sign_In.route) { Sign_in(navController) }
                 composable(Screen.Sign_Up.route) { Sign_Up(navController) }
                 composable(Screen.Sign_Up_2.route) { Sign_Up_2(navController) }
@@ -46,16 +47,16 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.Playlist.route) { Playlist(navController) }
                 composable(Screen.AddPlaylist.route) { AddPlaylist(navController) }
                 composable(Screen.YeuThich.route) { YeuThich(navController) }
-//                composable("${Screen.PlayMusic.route}/{songId}") { backStackEntry ->
-//                    val songId = backStackEntry.arguments?.getString("songId") ?: ""
-//                    val viewModel: DanhSachBaiHatVieModel = viewModel()
-//
-//                    PlayMusic(
-//                        navController = navController,
-//                        songId = songId,
-//                        danhSachBaiHat = viewModel
-//                    )
-//                }
+                composable("${Screen.PlayMusic.route}/{songId}") { backStackEntry ->
+                    val songId = backStackEntry.arguments?.getString("songId") ?: ""
+                    val viewModel: DanhSachBaiHatVieModel = viewModel()
+
+                    PlayMusic(
+                        navController = navController,
+                        songId = songId,
+
+                    )
+                }
 
                 // Thêm route cho MusicPlayer
                 composable(Screen.MusicPlayer.route) {
