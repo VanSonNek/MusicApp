@@ -55,6 +55,8 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.firestore.ktx)
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.3")
 
@@ -70,7 +72,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.google.android.exoplayer:exoplayer:2.17.1")

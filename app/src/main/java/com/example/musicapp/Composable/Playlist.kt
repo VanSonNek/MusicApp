@@ -55,7 +55,7 @@ fun PlaylistHeader(
         modifier = modifier
             .fillMaxWidth()
             .height(250.dp)  // Fixed height but full width
-            .clickable { /* Xử lý khi nhấn */ },
+            .clickable { /* Xá»­ lĂ½ khi nháº¥n */ },
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -114,7 +114,7 @@ fun PlaylistHeader(
 fun playListItem(
     title: String,
     artist: String,
-    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    imageResId: Int, // ThĂªm tham sá»‘ cho áº£nh tá»« resource
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -122,20 +122,20 @@ fun playListItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        // Ảnh bìa bài hát
+        // áº¢nh bĂ¬a bĂ i hĂ¡t
         Image(
             painter = painterResource(id = imageResId),
-            contentDescription = "Ảnh bìa của $title",
+            contentDescription = "áº¢nh bĂ¬a cá»§a $title",
             modifier = Modifier
-                .size(50.dp) // Kích thước ảnh nhỏ gọn
-                .clip(RoundedCornerShape(4.dp)), // Bo góc nhẹ
+                .size(50.dp) // KĂ­ch thÆ°á»›c áº£nh nhá» gá»n
+                .clip(RoundedCornerShape(4.dp)), // Bo gĂ³c nháº¹
             contentScale = ContentScale.Crop
         )
 
-        // Khoảng cách giữa ảnh và thông tin
+        // Khoáº£ng cĂ¡ch giá»¯a áº£nh vĂ  thĂ´ng tin
         Spacer(modifier = Modifier.width(12.dp))
 
-        // Thông tin bài hát
+        // ThĂ´ng tin bĂ i hĂ¡t
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -157,12 +157,12 @@ fun playListItem(
 
         }
         IconButton(
-            onClick = { /* Xử lý xóa */ },
+            onClick = { /* Xá»­ lĂ½ xĂ³a */ },
             modifier = Modifier.size(36.dp)
         ) {
             Icon(
                 Icons.Default.Delete,
-                contentDescription = "Xóa bài hát",
+                contentDescription = "XĂ³a bĂ i hĂ¡t",
                 tint = Color.Red
             )
         }
@@ -177,21 +177,21 @@ fun TopBar(navController: NavController, title: String) {
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Spacer để đẩy Text vào giữa
+        // Spacer Ä‘á»ƒ Ä‘áº©y Text vĂ o giá»¯a
         Spacer(modifier = Modifier.weight(1f))
 
-        // Text ở giữa
+        // Text á»Ÿ giá»¯a
         Text(
             text = title,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.wrapContentWidth() // Đảm bảo Text không chiếm toàn bộ chiều rộng
+            modifier = Modifier.wrapContentWidth() // Äáº£m báº£o Text khĂ´ng chiáº¿m toĂ n bá»™ chiá»u rá»™ng
         )
 
-        // Spacer để đẩy Icon ra sát bên phải
+        // Spacer Ä‘á»ƒ Ä‘áº©y Icon ra sĂ¡t bĂªn pháº£i
         Spacer(modifier = Modifier.weight(1f))
 
-        // Icon sát bên phải
+        // Icon sĂ¡t bĂªn pháº£i
         Icon(
             painter = painterResource(id = android.R.drawable.ic_menu_close_clear_cancel),
             contentDescription = "Close",
@@ -204,8 +204,8 @@ fun TopBar(navController: NavController, title: String) {
 
 @Composable
 fun SearchBar() {
-    var searchText by remember { mutableStateOf("Tìm kiếm bài hát để thêm vào playlist") }
-    var isPlaceholder by remember { mutableStateOf(true) } // Trạng thái để kiểm tra xem có đang hiển thị placeholder không
+    var searchText by remember { mutableStateOf("TĂ¬m kiáº¿m bĂ i hĂ¡t Ä‘á»ƒ thĂªm vĂ o playlist") }
+    var isPlaceholder by remember { mutableStateOf(true) } // Tráº¡ng thĂ¡i Ä‘á»ƒ kiá»ƒm tra xem cĂ³ Ä‘ang hiá»ƒn thá»‹ placeholder khĂ´ng
 
     Box(
         modifier = Modifier
@@ -225,22 +225,22 @@ fun SearchBar() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             BasicTextField(
-                value = if (isPlaceholder) "Tìm kiếm bài hát để thêm vào playlist" else searchText,
+                value = if (isPlaceholder) "TĂ¬m kiáº¿m bĂ i hĂ¡t Ä‘á»ƒ thĂªm vĂ o playlist" else searchText,
                 onValueChange = { newText ->
-                    isPlaceholder = false // Khi người dùng nhập, bỏ trạng thái placeholder
+                    isPlaceholder = false // Khi ngÆ°á»i dĂ¹ng nháº­p, bá» tráº¡ng thĂ¡i placeholder
                     searchText = newText
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .onFocusChanged { focusState ->
                         if (focusState.isFocused) {
-                            // Khi nhận focus, nếu đang hiển thị placeholder thì xóa nó
+                            // Khi nháº­n focus, náº¿u Ä‘ang hiá»ƒn thá»‹ placeholder thĂ¬ xĂ³a nĂ³
                             if (isPlaceholder) {
                                 searchText = ""
                                 isPlaceholder = false
                             }
                         } else {
-                            // Khi mất focus, nếu không có nội dung thì hiển thị lại placeholder
+                            // Khi máº¥t focus, náº¿u khĂ´ng cĂ³ ná»™i dung thĂ¬ hiá»ƒn thá»‹ láº¡i placeholder
                             if (searchText.isEmpty()) {
                                 isPlaceholder = true
                             }
@@ -260,7 +260,7 @@ fun SearchBar() {
 fun AddPlaylists(
     title: String,
     artist: String,
-    imageResId: Int, // Thêm tham số cho ảnh từ resource
+    imageResId: Int, // ThĂªm tham sá»‘ cho áº£nh tá»« resource
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -268,20 +268,20 @@ fun AddPlaylists(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        // Ảnh bìa bài hát
+        // áº¢nh bĂ¬a bĂ i hĂ¡t
         Image(
             painter = painterResource(id = imageResId),
-            contentDescription = "Ảnh bìa của $title",
+            contentDescription = "áº¢nh bĂ¬a cá»§a $title",
             modifier = Modifier
-                .size(50.dp) // Kích thước ảnh nhỏ gọn
-                .clip(RoundedCornerShape(4.dp)), // Bo góc nhẹ
+                .size(50.dp) // KĂ­ch thÆ°á»›c áº£nh nhá» gá»n
+                .clip(RoundedCornerShape(4.dp)), // Bo gĂ³c nháº¹
             contentScale = ContentScale.Crop
         )
 
-        // Khoảng cách giữa ảnh và thông tin
+        // Khoáº£ng cĂ¡ch giá»¯a áº£nh vĂ  thĂ´ng tin
         Spacer(modifier = Modifier.width(12.dp))
 
-        // Thông tin bài hát
+        // ThĂ´ng tin bĂ i hĂ¡t
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -302,12 +302,12 @@ fun AddPlaylists(
             )
         }
         IconButton(
-            onClick = { /* Xử lý xóa */ },
+            onClick = { /* Xá»­ lĂ½ xĂ³a */ },
             modifier = Modifier.size(36.dp)
         ) {
             Icon(
                 Icons.Default.Add,
-                contentDescription = "Thêm bài hát",
+                contentDescription = "ThĂªm bĂ i hĂ¡t",
                 tint = Color.Black
             )
         }

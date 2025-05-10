@@ -18,7 +18,6 @@ import com.example.musicapp.Composable.SignInScreen
 import com.example.musicapp.Composable.SignUpText
 import com.example.musicapp.Composable.Text_Sign
 import com.example.musicapp.R
-import com.example.musicapp.Screen.Screen
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import android.util.Log
@@ -27,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.example.musicapp.Screen.Screen
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 @Composable

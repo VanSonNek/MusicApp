@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.musicapp.Screen.Screen
-import com.example.musicapp.Screenn.Home.BottomNavItem
 @Composable
 fun AlbumItem(
     title: String,
@@ -242,4 +241,3 @@ fun BottomNavigation(navController: NavHostController) {
         }
     }
 }
-

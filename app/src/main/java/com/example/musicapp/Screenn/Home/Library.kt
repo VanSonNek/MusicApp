@@ -1,36 +1,45 @@
 package com.example.musicapp.Screenn.Home
 
-
+import LibraryViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.musicapp.Composable.BottomNavigation
-import com.example.musicapp.Composable.PlaylistItem
-import com.example.musicapp.Composable.QuickAccessItem
-import com.example.musicapp.Composable.RecentlyPlayedItem
-import com.example.musicapp.Composable.TabItem
-import com.example.musicapp.R
+import com.example.musicapp.Model.Playlist
 import com.example.musicapp.Screen.Screen
+import java.text.SimpleDateFormat
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Library(navController: NavHostController) {
+    val viewModel: LibraryViewModel = viewModel()
+
+    // Sử dụng lắng nghe thời gian thực thay vì chỉ lấy dữ liệu một lần
+    LaunchedEffect(key1 = true) {
+        viewModel.listenToPlaylists()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -52,28 +61,33 @@ fun Library(navController: NavHostController) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFFF5F5F5) // Màu nền của TopAppBar
+                    containerColor = Color(0xFFF5F5F5)
                 )
             )
         },
         bottomBar = { BottomNavigation(navController) },
-        containerColor = Color(0xFFF5F5F5) // Màu nền của toàn bộ màn hình
+        containerColor = Color(0xFFF5F5F5)
     ) { innerPadding ->
         LibraryContent(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            navController = navController
+            navController = navController,
+            viewModel = viewModel
         )
-
-
     }
 }
 
 @Composable
-fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostController)
+fun LibraryContent(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    viewModel: LibraryViewModel
+) {
+    val playlists = viewModel.playlistState
+    val isLoading = viewModel.isLoading
+    val errorMessage = viewModel.errorMessage
 
- {
     LazyColumn(
         modifier = modifier
             .background(Color(0xFFF5F5F5))
@@ -82,39 +96,7 @@ fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostControll
     ) {
         item { Spacer(modifier = Modifier.height(16.dp)) }
 
-        // Quick Access Section ("Yêu thích", "Đã tải", "Upload")
-        item {
-            LazyRow(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                item {
-                    QuickAccessItem("Yêu thích",
-                        "6",
-                        Color(0xFF00BFFF),
-                        Icons.Default.Favorite,
-                        onClick = { navController.navigate(Screen.YeuThich.route) }
-                        )
-                }
-                item {
-                    QuickAccessItem("Đã tải", "5", Color(0xFF8A2BE2), Icons.Default.Download, onClick = {})
-                }
-//                item {
-//                    QuickAccessItem("Upload", "", Color(0xFFFFA500), Icons.Default.CloudUpload)
-//                }
-//                item {
-//                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
-//                }
-//                item {
-//                    QuickAccessItem("Yêu thích", "6", Color(0xFF00BFFF), Icons.Default.Favorite)
-//                }
-            }
-        }
-
-       item{Spacer(modifier = Modifier.height(16.dp))}
-        // Recently Played Section ("Nghe gần đây")
+        // Tiêu đề "Playlist của tôi"
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -122,67 +104,25 @@ fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostControll
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Nghe gần đây",
-                    fontSize = 18.sp,
+                    text = "Playlist của tôi",
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
-                    contentDescription = "View All",
+                    contentDescription = "Xem tất cả",
                     tint = Color.Black,
                     modifier = Modifier.size(24.dp)
                 )
             }
         }
 
-        item{Spacer(modifier = Modifier.height(10.dp))}
-
-        // Recently Played Item
-        item {
-            Column(
-                modifier = Modifier.padding(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(15.dp) // Khoảng cách giữa các item
-            ) {
-                RecentlyPlayedItem(
-                    title = "Bài hát nghe gần đây",
-                    subtitle = "Tâm trạng",
-                    imageResId = R.drawable.bacphan
-                )
-                RecentlyPlayedItem(
-                    title = "Bài hát nghe gần đây",
-                    subtitle = "Tâm trạng",
-                    imageResId = R.drawable.bacphan
-                )
-            }
-        }
-
-        item{Spacer(modifier = Modifier.height(16.dp))}
-
-        // Tabs ("Playlist", "Album")
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TabItem("Playlist", isSelected = true)
-                TabItem("Album", isSelected = false)
-                Spacer(modifier = Modifier.weight(1f))
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More",
-                    tint = Color.Gray,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
+        item { Spacer(modifier = Modifier.height(8.dp)) }
 
         // Create Playlist Button
         item {
             OutlinedButton(
-                onClick = { navController.navigate(Screen.AddPlaylist.route)  },
+                onClick = { navController.navigate(Screen.AddPlaylist.route) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
@@ -190,7 +130,7 @@ fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostControll
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add",
+                    contentDescription = "Thêm",
                     tint = Color.Gray
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -198,17 +138,37 @@ fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostControll
             }
         }
 
-        // Playlist Items
-        val playlists = listOf(
-            Playlist("Tâm trạng", "Nguyễn Văn Sanh", R.drawable.chidan),
-            Playlist("Độ Tộc 2", "Nguyễn Văn Sanh", R.drawable.nang)
-        )
+        // Hiển thị thông báo đang tải
+        if (isLoading) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(vertical = 16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(color = Color(0xFF1DB954))
+                }
+            }
+        }
 
-        itemsIndexed(playlists) { _, playlist ->
-            PlaylistItem(
-                title = playlist.title,
-                artist = playlist.artist,
-                imageResId = playlist.imageResId,
+        // Hiển thị thông báo lỗi nếu có
+        errorMessage?.let {
+            item {
+                Text(
+                    text = it,
+                    color = Color.Red,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+        }
+
+        // Playlist Items từ Firebase
+        items(playlists) { playlist ->
+            FirebasePlaylistItem(
+                playlist = playlist,
+                onClick = { },
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }
@@ -220,8 +180,113 @@ fun LibraryContent(modifier: Modifier = Modifier, navController: NavHostControll
     }
 }
 
+@Composable
+fun FirebasePlaylistItem(
+    playlist: Playlist,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .background(Color.White, RoundedCornerShape(12.dp))
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Hiển thị ảnh bìa
+        AsyncImage(
+            model = playlist.coverImageUrl,
+            contentDescription = playlist.title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(70.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.LightGray)
+        )
 
+        Spacer(modifier = Modifier.width(16.dp))
 
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = playlist.title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
 
-data class Playlist(val title: String, val artist: String, val imageResId: Int)
-data class BottomNavItem(val title: String, val icon: ImageVector)
+            Text(
+                text = playlist.description,
+                color = Color.Gray,
+                fontSize = 14.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 4.dp)
+            ) {
+                if (playlist.isPublic) {
+                    Icon(
+                        imageVector = Icons.Default.Public,
+                        contentDescription = "Public",
+                        tint = Color.Gray,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Công khai",
+                        color = Color.Gray,
+                        fontSize = 12.sp
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Private",
+                        tint = Color.Gray,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Riêng tư",
+                        color = Color.Gray,
+                        fontSize = 12.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "${playlist.totalSongs} bài hát",
+                    color = Color.Gray,
+                    fontSize = 12.sp
+                )
+            }
+        }
+
+        IconButton(onClick = { /* Xử lý menu */ }) {
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = "Thêm tùy chọn",
+                tint = Color.Gray
+            )
+        }
+    }
+}
+
+// Hàm tiện ích để định dạng ngày tháng
+fun formatDate(dateString: String): String {
+    try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+        val date = inputFormat.parse(dateString)
+
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return outputFormat.format(date)
+    } catch (e: Exception) {
+        return ""
+    }
+}

@@ -13,7 +13,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.example.musicapp.Screen.Home.Home
 import com.example.musicapp.Screenn.Home.Account
 import com.example.musicapp.Screenn.Home.AddPlaylist
@@ -22,8 +24,8 @@ import com.example.musicapp.Screenn.Home.Explore
 import com.example.musicapp.Screenn.Home.Library
 import com.example.musicapp.Screenn.Home.MusicPlayerComposableScreen
 import com.example.musicapp.Screenn.Home.PlayMusic
+import com.example.musicapp.Screenn.Home.PlaylistScreen
 //import com.example.musicapp.Screenn.Home.PlayMusic
-import com.example.musicapp.Screenn.Home.Playlist
 import com.example.musicapp.Screenn.Home.YeuThich
 import com.example.musicapp.Screenn.SignUp_In.Sign_Up
 import com.example.musicapp.Screenn.SignUp_In.Sign_Up_2
@@ -44,7 +46,13 @@ class MainActivity : ComponentActivity() {
                 composable(Screen.Library.route) { Library(navController) }
                 composable(Screen.Account.route) { Account(navController) }
                 composable(Screen.Explore.route) { Explore(navController) }
-                composable(Screen.Playlist.route) { Playlist(navController) }
+                composable(
+                    route = "playlist/{playlistId}",
+                    arguments = listOf(navArgument("playlistId") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    val playlistId = backStackEntry.arguments?.getString("playlistId") ?: ""
+                    PlaylistScreen(navController, playlistId)
+                }
                 composable(Screen.AddPlaylist.route) { AddPlaylist(navController) }
                 composable(Screen.YeuThich.route) { YeuThich(navController) }
                 composable("${Screen.PlayMusic.route}/{songId}") { backStackEntry ->
@@ -55,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         songId = songId,
 
-                    )
+                        )
                 }
 
                 // Thêm route cho MusicPlayer
